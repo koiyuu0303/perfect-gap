@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
+/*
+ * 配色は聴くことに集中できるよう抑えた階調にしている。
+ * 例外は「デチューン条件」を示す accent-warn で、実験条件が
+ * 切り替わったことが一目で分かるよう、ここだけ彩度を上げている。
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fbfbfa;
+  --foreground: #1a1a18;
+  --surface: #ffffff;
+  --surface-raised: #f4f4f2;
+  --border: #e2e2de;
+  --muted: #6b6b66;
+  --accent: #3d5a80;
+  --accent-foreground: #ffffff;
+  --accent-warn: #b45309;
+  --success: #2d6a4f;
+  --error: #9b2226;
+
+  /*
+   * グラフの系列色。検証スクリプトで色覚特性による見分けやすさを確認済み
+   * (最も近い組で CVD ΔE 24.7、目標値8を大きく上回る)。
+   * 系列1=基準ピッチ、系列2=デチューン。
+   */
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #131316;
+    --foreground: #ededeb;
+    --surface: #1c1c20;
+    --surface-raised: #26262b;
+    --border: #33333a;
+    --muted: #9a9a95;
+    --accent: #7ea8d4;
+    --accent-foreground: #10101a;
+    --accent-warn: #e0a458;
+    --success: #74c69d;
+    --error: #e5989b;
+
+    /* 暗い背景用に踏み直した同じ2色(自動反転ではなく個別に検証済み) */
+    --series-1: #3987e5;
+    --series-2: #d95926;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-warn: var(--accent-warn);
+  --color-success: var(--success);
+  --color-error: var(--error);
+  --color-series-1: var(--series-1);
+  --color-series-2: var(--series-2);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* 日本語を含むため、和文フォントを明示的に後段に置く */
+  font-family:
+    var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif;
+}
+
+/* 出題中に文字を選択してしまうと操作の邪魔になる */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 音が鳴っていることを示す、控えめな明滅 */
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-soft {
+    animation: none;
+  }
 }
