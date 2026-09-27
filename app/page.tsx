@@ -48,12 +48,20 @@ export default function Home() {
         </section>
 
         <section className="flex flex-col gap-4">
-          <Link
-            href="/diagnostic"
-            className="self-start px-8 py-3 rounded-lg bg-accent text-accent-foreground font-medium hover:opacity-90 transition-opacity"
-          >
-            診断をはじめる
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/diagnostic"
+              className="px-8 py-3 rounded-lg bg-accent text-accent-foreground font-medium hover:opacity-90 transition-opacity"
+            >
+              診断をはじめる
+            </Link>
+            <Link
+              href="/history"
+              className="px-6 py-3 rounded-lg border border-border hover:border-accent transition-colors"
+            >
+              記録を見る
+            </Link>
+          </div>
 
           <p className="text-xs text-muted">
             全20問・約5分 · 登録不要 · ヘッドホン推奨

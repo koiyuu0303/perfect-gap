@@ -33,10 +33,24 @@ export function getSupabaseClient(): SupabaseClient | null {
       auth: {
         persistSession: true,
         autoRefreshToken: true,
-        detectSessionInUrl: false,
+        // メール内のリンクから戻ってきたとき、URLに含まれる認証情報を
+        // 自動で処理してセッションを確立する。端末をまたいだ復帰に必須。
+        detectSessionInUrl: true,
+        flowType: "pkce",
       },
     });
   }
 
   return cachedClient;
+}
+
+/**
+ * メールのリンクから戻る先。
+ *
+ * 実行時の origin から組み立てる。開発環境(localhost)と本番(vercel.app)で
+ * 別々に設定を持つ必要がなくなり、設定漏れによる「リンクを踏んでも
+ * 戻ってこない」という分かりにくい不具合を防げる。
+ */
+export function authCallbackUrl(): string {
+  return `${window.location.origin}/auth/callback`;
 }

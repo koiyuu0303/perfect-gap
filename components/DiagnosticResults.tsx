@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
   summarizeDiagnostic,
@@ -81,12 +82,33 @@ export function DiagnosticResults({
 
       {saveStatus && <SaveIndicator status={saveStatus} />}
 
-      <button
-        onClick={onRestart}
-        className="self-center px-8 py-3 rounded-lg border border-border bg-surface hover:border-accent transition-colors"
-      >
-        もう一度診断する
-      </button>
+      <div className="flex flex-wrap justify-center gap-3">
+        <Link
+          href="/history"
+          className="px-8 py-3 rounded-lg bg-accent text-accent-foreground font-medium hover:opacity-90 transition-opacity"
+        >
+          これまでの推移を見る
+        </Link>
+        <button
+          onClick={onRestart}
+          className="px-8 py-3 rounded-lg border border-border bg-surface hover:border-accent transition-colors"
+        >
+          もう一度診断する
+        </button>
+      </div>
+
+      {saveStatus?.kind === "saved" && (
+        <p className="text-xs text-muted text-center leading-relaxed">
+          記録はこのブラウザに紐づいています。
+          <Link
+            href="/account"
+            className="underline hover:text-foreground transition-colors ml-1"
+          >
+            メールアドレスを登録
+          </Link>
+          しておくと、端末を変えても続きから使えます。
+        </p>
+      )}
     </div>
   );
 }
